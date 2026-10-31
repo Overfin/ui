@@ -327,7 +327,9 @@ dialog.modal {
 }
 dialog.modal.wide { width: min(56rem, calc(100vw - 2rem)); }
 dialog.modal.small { width: min(28rem, calc(100vw - 2rem)); }
-dialog.modal::backdrop { background: rgba(5, 6, 9, .62); backdrop-filter: blur(2px); }
+/* Darkened, not blurred: a blur makes the browser draw the whole page
+   under every window again, which slow computers feel. */
+dialog.modal::backdrop { background: rgba(5, 6, 9, .62); }
 dialog.modal .card-head { margin-bottom: .9rem; }
 dialog.modal .card-foot { position: sticky; bottom: -1.25rem; margin-top: 1.2rem; }
 dialog.modal .close {
