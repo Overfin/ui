@@ -20,6 +20,12 @@ and doesn't use it.
 Nothing is edited in place: a list shows its rows with Edit and Delete, and
 forms open in a `FormModal`; a new one too.
 
+A few plain classes cover what tables and lists need: `visually-hidden` (a
+column's name only screen readers hear, over its row buttons), `button.pick`
+(a row's name that selects the row, so the keyboard reaches it), and `th a`
+(a column header that sorts, `.on` on the column sorted on). Windows give the
+keyboard focus back to the button that opened them when they close.
+
 ## Using it
 
 A panel installs a tagged version from GitHub (install scripts stay off):
