@@ -3,7 +3,7 @@
      in one of these. Escape, the close button or a click outside close it,
      unless it's busy (a save under way). The first field gets the focus. -->
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import { onDestroy, type Snippet } from 'svelte';
   import { word } from '../lib/labels.svelte';
 
   let {
@@ -29,6 +29,15 @@
 
   let element = $state<HTMLDialogElement>();
   const id = `modal-${Math.random().toString(36).slice(2)}`;
+
+  // What had the focus when the window opened (its button, usually) gets it
+  // back when the window closes, so a keyboard carries on from there.
+  const opener = document.activeElement as HTMLElement | null;
+  onDestroy(() => {
+    requestAnimationFrame(() => {
+      if (opener?.isConnected && !(opener as HTMLButtonElement).disabled) opener.focus();
+    });
+  });
 
   $effect(() => {
     if (!element || element.open) return;

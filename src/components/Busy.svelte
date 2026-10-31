@@ -1,7 +1,7 @@
 <!-- A button whose action waits for the server: it's disabled until the
      action is done, and a failure is said in a toast (or by fail). -->
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import { tick, type Snippet } from 'svelte';
   import { toast } from '../lib/toast.svelte';
 
   let {
@@ -27,6 +27,7 @@
   } = $props();
 
   let running = $state(false);
+  let button = $state<HTMLButtonElement>();
 
   async function run() {
     running = true;
@@ -36,8 +37,12 @@
       fail(err instanceof Error ? err : new Error(String(err)));
     } finally {
       running = false;
+      // A confirmation asked meanwhile closed while this button was disabled,
+      // so the focus fell to the page: it comes back here.
+      await tick();
+      if (button?.isConnected && (!document.activeElement || document.activeElement === document.body)) button.focus();
     }
   }
 </script>
 
-<button type="button" class={kind} class:small disabled={disabled || running} aria-label={label || undefined} title={title || undefined} onclick={run}>{@render children()}</button>
+<button bind:this={button} type="button" class={kind} class:small disabled={disabled || running} aria-label={label || undefined} title={title || undefined} onclick={run}>{@render children()}</button>
