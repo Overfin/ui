@@ -15,7 +15,10 @@ h1, h2, h3 { line-height: 1.25; }
 input, select, button, textarea { font: inherit; color: inherit; }
 code { font-size: .9em; background: var(--panel-3); padding: .1em .35em; border-radius: 4px; }
 .muted { color: var(--muted); }
-/* Read by screen readers only: a column's name over its row buttons, say. */
+/* Read by screen readers only: a column's name over its row buttons, say.
+   Its header cell holds it (position: relative), so in a table that scrolls
+   sideways it never widens the page. */
+th { position: relative; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .hint { font-size: .85rem; color: var(--muted); }
 .nowrap { white-space: nowrap; }
