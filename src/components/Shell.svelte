@@ -35,7 +35,7 @@
 </script>
 
 <div class="shell">
-  <aside class="sidebar">
+  <aside class="sidebar" aria-label={name}>
     <div class="brand">
       {#if logo}<img class="logo" src={logo} alt="" />{/if}
       <div><strong>{name}</strong>{#if subtitle}<small>{subtitle}</small>{/if}</div>

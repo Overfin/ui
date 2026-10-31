@@ -8,7 +8,7 @@
 <main class="single">
   <div class="brand">
     {#if logo}<img class="logo" src={logo} alt="" />{/if}
-    <div><strong>{name}</strong></div>
+    <div><h1>{name}</h1></div>
   </div>
   {@render children()}
 </main>
