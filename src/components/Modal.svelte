@@ -8,6 +8,9 @@
   // since the first one is gone: it takes this instead, so the focus still
   // ends on the button that started the chain.
   let returning: HTMLElement | null = null;
+  // How many windows are open: one opened over another doesn't darken the
+  // page again (the first one did).
+  let open = 0;
 </script>
 
 <script lang="ts">
@@ -42,7 +45,10 @@
   // back when the window closes, so a keyboard carries on from there.
   const focused = document.activeElement as HTMLElement | null;
   const opener = !focused || focused === document.body ? returning : focused;
+  const stacked = open > 0;
+  open++;
   onDestroy(() => {
+    open--;
     returning = opener;
     requestAnimationFrame(() => {
       if (returning === opener) returning = null;
@@ -62,7 +68,7 @@
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
-<dialog class="modal" class:wide={size === 'wide'} class:small={size === 'small'} bind:this={element}
+<dialog class="modal" class:wide={size === 'wide'} class:small={size === 'small'} class:stacked bind:this={element}
   role={alert ? 'alertdialog' : undefined} aria-labelledby={id}
   oncancel={(e) => { e.preventDefault(); shut(); }}
   onclick={(e) => { if (e.target === element) shut(); }}>
