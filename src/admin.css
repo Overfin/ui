@@ -372,6 +372,33 @@ button.pick:focus-visible { outline: 2px solid var(--accent); outline-offset: 2p
 th a { color: inherit; text-decoration: none; }
 th a:hover, th a.on { color: var(--text); }
 
+/* ---- Tabs and image choices ------------------------------------------------- */
+/* Parts of one thing, one at a time (Tabs): their names in a row, the
+   chosen one underlined. */
+.tabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem; overflow-x: auto; }
+.tabs button[role=tab] {
+  min-height: 2.4rem; padding: .4rem .9rem; margin-bottom: -1px; border: none; border-bottom: 2px solid transparent;
+  border-radius: var(--radius-s) var(--radius-s) 0 0; background: none; color: var(--muted); font-weight: 550;
+}
+.tabs button[role=tab]:hover { background: var(--panel-2); color: var(--text); }
+.tabs button[role=tab][aria-selected=true] { color: var(--text); border-bottom-color: var(--accent); }
+/* Pictures to choose one of: buttons holding them, the chosen one
+   (aria-pressed) outlined; .wide for backdrops, .logos on a checkered
+   ground so a transparent logo shows. A caption under each, if any. */
+.image-choices { display: grid; grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); gap: .6rem; }
+.image-choices.wide { grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); }
+.image-choices button {
+  display: flex; flex-direction: column; align-items: stretch; gap: .3rem; min-height: 0; padding: .3rem;
+  white-space: normal; font-weight: 500; font-size: .8rem; color: var(--muted);
+}
+.image-choices button[aria-pressed=true] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); color: var(--text); }
+.image-choices img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: calc(var(--radius-s) - 2px); background: var(--panel-3); }
+.image-choices.wide img { aspect-ratio: 16 / 9; }
+.image-choices.logos img, img.logo-preview {
+  object-fit: contain; aspect-ratio: 16 / 9;
+  background: repeating-conic-gradient(var(--panel-3) 0 25%, var(--panel-2) 0 50%) 0 0 / 1rem 1rem;
+}
+
 /* People who ask their device for less motion get none. */
 @media (prefers-reduced-motion: reduce) {
   .toast, .loading::before { animation: none; }
