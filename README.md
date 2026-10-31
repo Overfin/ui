@@ -58,9 +58,9 @@ npm run check   # types
 npm test        # unit tests
 ```
 
-## AI-assisted development
+## How it's made
 
-Said plainly, as for Overfin: Overfin UI is written by Claude (Anthropic's AI): its code, its tests and its documentation. The maintainer gives directions (what it should do, how, what to change) and uses the panels built on it, but doesn't write the code or review it line by line. Commits Claude wrote carry a `Co-Authored-By: Claude` trailer. What checks the code is the type check, the tests, and screenshots of the demo and the panels, dark, light and on a phone.
+Overfin UI is designed by its maintainer, who makes the architecture, security and product decisions, and written by Claude (Anthropic's AI); Claude's commits carry a `Co-Authored-By: Claude` trailer. The code is checked by its type check, its tests and screenshots of the panels built on it; it hasn't had an independent security review yet.
 
 ## License
 
