@@ -14,6 +14,7 @@
     who = '',
     signOut,
     wide = false,
+    extra,
     children,
   }: {
     name: string;
@@ -26,6 +27,9 @@
     signOut?: () => void;
     /** wide: the page takes the whole width (long tables). */
     wide?: boolean;
+    /** extra: what the sidebar shows above who is signed in (a panel's
+     * running operations, say). */
+    extra?: Snippet;
     children: Snippet;
   } = $props();
 </script>
@@ -53,6 +57,7 @@
         {/each}
       </nav>
     {/if}
+    {#if extra}<div class="sidebar-extra">{@render extra()}</div>{/if}
     {#if who || signOut}
       <div class="me">
         {#if who}<span class="who-name">{who}</span>{/if}

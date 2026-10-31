@@ -9,7 +9,7 @@
     badge,
     children,
     foot,
-  }: { title?: string; description?: string; badge?: Snippet; children: Snippet; foot?: Snippet } = $props();
+  }: { title?: string; description?: string; badge?: Snippet; children?: Snippet; foot?: Snippet } = $props();
 </script>
 
 <section>
@@ -22,6 +22,6 @@
       {@render badge?.()}
     </div>
   {/if}
-  {@render children()}
+  {@render children?.()}
   {#if foot}<div class="card-foot">{@render foot()}</div>{/if}
 </section>

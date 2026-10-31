@@ -11,6 +11,7 @@
     small = false,
     disabled = false,
     label = '',
+    title = '',
     children,
   }: {
     action: () => Promise<unknown> | unknown;
@@ -20,6 +21,8 @@
     disabled?: boolean;
     /** label: what a screen reader says, when the text isn't enough. */
     label?: string;
+    /** title: what hovering the button says. */
+    title?: string;
     children: Snippet;
   } = $props();
 
@@ -37,4 +40,4 @@
   }
 </script>
 
-<button type="button" class={kind} class:small disabled={disabled || running} aria-label={label || undefined} onclick={run}>{@render children()}</button>
+<button type="button" class={kind} class:small disabled={disabled || running} aria-label={label || undefined} title={title || undefined} onclick={run}>{@render children()}</button>

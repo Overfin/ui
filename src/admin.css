@@ -43,6 +43,8 @@ nav a svg { width: 1.1rem; height: 1.1rem; flex: none; opacity: .85; }
 nav a:hover { background: var(--panel-2); color: var(--text); }
 nav a.active { background: var(--accent-soft); color: var(--text); }
 nav a.active svg { color: var(--accent); opacity: 1; }
+.sidebar-extra { margin-top: auto; display: grid; gap: .4rem; }
+.sidebar-extra + .me { margin-top: 0; }
 .me { margin-top: auto; display: grid; gap: .5rem; padding: .8rem .6rem 0; border-top: 1px solid var(--border); }
 .me .who-name { font-size: .82rem; color: var(--muted); overflow-wrap: anywhere; }
 
@@ -74,6 +76,7 @@ main.wide { max-width: none; }
   nav a svg { display: none; }
   .me { margin: 0; padding: 0; border: none; }
   .me .who-name { display: none; }
+  .sidebar-extra { margin: 0; }
   main { padding-top: 1.25rem; }
 }
 
