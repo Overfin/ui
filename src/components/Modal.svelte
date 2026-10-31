@@ -9,7 +9,8 @@
   // ends on the button that started the chain.
   let returning: HTMLElement | null = null;
   // How many windows are open: one opened over another doesn't darken the
-  // page again (the first one did).
+  // page again (the first one did); while any is, the page behind holds
+  // still (html.modal-open).
   let open = 0;
 </script>
 
@@ -46,9 +47,9 @@
   const focused = document.activeElement as HTMLElement | null;
   const opener = !focused || focused === document.body ? returning : focused;
   const stacked = open > 0;
-  open++;
+  if (open++ === 0) document.documentElement.classList.add('modal-open');
   onDestroy(() => {
-    open--;
+    if (--open === 0) document.documentElement.classList.remove('modal-open');
     returning = opener;
     requestAnimationFrame(() => {
       if (returning === opener) returning = null;

@@ -8,7 +8,10 @@
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; }
+/* A window open: the page behind it holds still (Modal). The scrollbar's
+   room stays (scrollbar-gutter), so nothing moves sideways. */
+html.modal-open { overflow: hidden; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 var(--font); }
 a { color: var(--accent); }
 h1, h2, h3 { line-height: 1.25; }
@@ -321,7 +324,7 @@ ol.how li { margin: .3rem 0; }
 
 /* ---- Windows: forms and confirmations over the page (Modal, Dialogs) ------ */
 dialog.modal {
-  width: min(36rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 1.25rem 1.4rem; overflow: auto;
+  width: min(36rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 1.25rem 1.4rem; overflow: auto; overscroll-behavior: contain;
   background: var(--panel); color: var(--text); border: 1px solid var(--border-strong); border-radius: var(--radius);
   box-shadow: 0 24px 64px rgba(0, 0, 0, .45);
 }
