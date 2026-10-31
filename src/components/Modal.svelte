@@ -2,6 +2,14 @@
      its buttons (foot). Nothing is edited in place: a list opens its forms
      in one of these. Escape, the close button or a click outside close it,
      unless it's busy (a save under way). The first field gets the focus. -->
+<script module lang="ts">
+  // Where a window that just closed sends the focus back. A window opened
+  // right after it (a form, then its result) finds the focus on nothing,
+  // since the first one is gone: it takes this instead, so the focus still
+  // ends on the button that started the chain.
+  let returning: HTMLElement | null = null;
+</script>
+
 <script lang="ts">
   import { onDestroy, type Snippet } from 'svelte';
   import { word } from '../lib/labels.svelte';
@@ -32,10 +40,13 @@
 
   // What had the focus when the window opened (its button, usually) gets it
   // back when the window closes, so a keyboard carries on from there.
-  const opener = document.activeElement as HTMLElement | null;
+  const focused = document.activeElement as HTMLElement | null;
+  const opener = !focused || focused === document.body ? returning : focused;
   onDestroy(() => {
+    returning = opener;
     requestAnimationFrame(() => {
-      if (opener?.isConnected && !(opener as HTMLButtonElement).disabled) opener.focus();
+      if (returning === opener) returning = null;
+      if (opener?.isConnected && !(opener as HTMLButtonElement).disabled) opener.focus({ preventScroll: true });
     });
   });
 

@@ -40,7 +40,7 @@
       // A confirmation asked meanwhile closed while this button was disabled,
       // so the focus fell to the page: it comes back here.
       await tick();
-      if (button?.isConnected && (!document.activeElement || document.activeElement === document.body)) button.focus();
+      if (button?.isConnected && (!document.activeElement || document.activeElement === document.body)) button.focus({ preventScroll: true });
     }
   }
 </script>
