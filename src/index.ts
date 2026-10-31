@@ -20,6 +20,8 @@ export { default as Modal } from './components/Modal.svelte';
 export { default as FormModal } from './components/FormModal.svelte';
 export { default as Dialogs } from './components/Dialogs.svelte';
 export { default as Toasts } from './components/Toasts.svelte';
+export { default as Progress } from './components/Progress.svelte';
+export { default as Single } from './components/Single.svelte';
 export { ask, tell } from './lib/dialog.svelte';
 export { toast } from './lib/toast.svelte';
 export { setLanguage, word } from './lib/labels.svelte';
