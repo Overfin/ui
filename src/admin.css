@@ -357,3 +357,14 @@ details.card > summary::before { content: "›"; color: var(--muted); transition
 details.card[open] > summary::before { transform: rotate(90deg); }
 details.card[open] > summary { margin-bottom: .75rem; }
 details.card table { border: 1px solid var(--border); border-radius: var(--radius-s); }
+
+/* ---- Picking and sorting ----------------------------------------------------- */
+/* A list row's name that selects the row (a master and detail page): a
+   button, so the keyboard reaches it, that looks like the name it is. */
+button.pick { display: block; min-height: 0; padding: 0; border: none; background: none; box-shadow: none; color: inherit; font: inherit; font-weight: 600; text-align: left; white-space: normal; cursor: pointer; }
+button.pick:hover { background: none; text-decoration: underline; }
+button.pick:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+/* A column header that sorts the list: a link, in the header's own color;
+   .on marks the column sorted on. */
+th a { color: inherit; text-decoration: none; }
+th a:hover, th a.on { color: var(--text); }
