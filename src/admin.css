@@ -371,3 +371,9 @@ button.pick:focus-visible { outline: 2px solid var(--accent); outline-offset: 2p
    .on marks the column sorted on. */
 th a { color: inherit; text-decoration: none; }
 th a:hover, th a.on { color: var(--text); }
+
+/* People who ask their device for less motion get none. */
+@media (prefers-reduced-motion: reduce) {
+  .toast, .loading::before { animation: none; }
+  .wizard-progress > div { transition: none; }
+}
