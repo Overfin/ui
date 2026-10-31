@@ -1,0 +1,12 @@
+# Keeps dependencies up to date, by pull request: npm packages (Svelte and
+# the build tools) and the CI's GitHub Actions.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

@@ -1,0 +1,33 @@
+# Checks every push and pull request: types, tests, and that the demo builds.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      # .npmrc turns install scripts off.
+      - name: Install
+        run: npm ci
+
+      - name: Types
+        run: npm run check
+
+      - name: Tests
+        run: npm test
+
+      - name: The demo builds
+        run: npm run build
