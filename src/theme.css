@@ -34,6 +34,9 @@
   --danger: #ff6b6b;
   --danger-rgb: 255, 107, 107;
   --danger-soft: rgba(255, 107, 107, .12);
+  /* More series for charts (and their labels): after accent and ok. */
+  --violet: #a35ff0;
+  --orange: #e5843a;
   /* The logo's colors, for the few places that carry the brand. */
   --brand: linear-gradient(90deg, #7b5cf0, #3fa9f5);
   /* Contours and depth: a hairline that catches the light, soft shadows. */
@@ -74,6 +77,8 @@
   --danger: #c43d3d;
   --danger-rgb: 196, 61, 61;
   --danger-soft: rgba(196, 61, 61, .08);
+  --violet: #8a4ad8;
+  --orange: #e5843a;
   --hairline: rgba(20, 24, 34, .08);
   --highlight: rgba(255, 255, 255, .6);
   --shadow-s: 0 1px 2px rgba(20, 24, 34, .08), 0 4px 12px rgba(20, 24, 34, .06);
@@ -109,6 +114,8 @@
     --danger: #c43d3d;
     --danger-rgb: 196, 61, 61;
     --danger-soft: rgba(196, 61, 61, .08);
+  --violet: #8a4ad8;
+  --orange: #e5843a;
     --hairline: rgba(20, 24, 34, .08);
     --highlight: rgba(255, 255, 255, .6);
     --shadow-s: 0 1px 2px rgba(20, 24, 34, .08), 0 4px 12px rgba(20, 24, 34, .06);
