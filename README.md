@@ -37,7 +37,7 @@ keyboard focus back to the button that opened them when they close.
 A panel installs a tagged version from GitHub (install scripts stay off):
 
 ```sh
-npm install --save-exact github:overfin/ui#v0.4.3
+npm install --save-exact github:overfin/ui#v0.4.4
 ```
 
 ```ts

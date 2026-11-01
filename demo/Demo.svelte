@@ -108,6 +108,29 @@
       <Secret value="ovs_3f9a1c2b7d">Overswell's key, shown once:</Secret>
       <Loading />
     </Card>
+    <Card title="Lists" description="Rows with a picture, rows of text, a notice with its button.">
+      <div class="notice-bar">
+        <Notice>This page has changed since you opened it.</Notice>
+        <button type="button" class="primary">Updates available</button>
+      </div>
+      <section>
+        <h3>Posters</h3>
+        <ul class="list top wrap">
+          {#each services as s (s.id)}
+            <li>
+              <Avatar name={s.name} />
+              <div><div class="name">{s.name}</div><div class="hint">{s.url}</div></div>
+              <span class="row-actions"><button type="button" class="small">Back to TMDB's</button><button type="button" class="small">Change</button></span>
+            </li>
+          {/each}
+        </ul>
+        <h3>Reasons</h3>
+        <ul class="list stack">
+          <li><strong>Watched</strong><br /><span class="muted">3 times this year</span></li>
+          <li><strong>Size</strong><br /><span class="muted">4.2 GB</span></li>
+        </ul>
+      </section>
+    </Card>
     <Card title="Parts" description="Tabs, progress, a window, a page without the sidebar.">
       <Tabs tabs={[{ id: 'disks', label: 'Disks' }, { id: 'queue', label: 'Queue' }]} bind:current={part} label="Storage">
         {#snippet children(id)}
