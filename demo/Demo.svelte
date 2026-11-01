@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
     Shell, PageHead, Card, Field, Setting, Badge, Notice, Status, Avatar, Secret, Loading, Empty,
-    Stats, Busy, RowActions, FormModal, Dialogs, Toasts, ask, tell, toast, ago,
+    Stats, Busy, RowActions, Modal, FormModal, Dialogs, Toasts, Progress, Single, Tabs, ask, tell, toast, ago,
   } from '../src/index';
   import type { NavGroup } from '../src/index';
 
@@ -21,6 +21,11 @@
   let daily = $state(10);
   let on = $state(true);
   let fail = $state(false);
+  // The parts of the demo not in the page above: a page without the
+  // sidebar, a window, tabs and progress.
+  let single = $state(false);
+  let window = $state(false);
+  let part = $state('disks');
 
   async function remove(id: number, name: string) {
     if (await ask(`Delete ${name}? Overswell stops using it.`, { yes: 'Delete', danger: true })) {
@@ -38,6 +43,16 @@
   }
 </script>
 
+{#if single}
+<Single name="Overswell">
+  <section>
+    <h2>Sign in</h2>
+    <Notice>A page without the sidebar: signing in, setting up.</Notice>
+    <Progress value={40} label="Setting up" />
+    <div class="wizard-foot"><button type="button" class="primary" onclick={() => (single = false)}>Back to the panel</button></div>
+  </section>
+</Single>
+{:else}
 <Shell name="Overswell" subtitle="Adding" logo="" {nav} active="#services" who="admin@example.org" signOut={() => toast('Signed out.')}>
   <PageHead title="Services" description="Radarr and Sonarr, where Overswell adds titles.">
     {#snippet actions()}
@@ -93,8 +108,27 @@
       <Secret value="ovs_3f9a1c2b7d">Overswell's key, shown once:</Secret>
       <Loading />
     </Card>
+    <Card title="Parts" description="Tabs, progress, a window, a page without the sidebar.">
+      <Tabs tabs={[{ id: 'disks', label: 'Disks' }, { id: 'queue', label: 'Queue' }]} bind:current={part} label="Storage">
+        {#snippet children(id)}
+          {#if id === 'disks'}<Progress value={72} label="Disk used" />{:else}<Empty>Nothing waiting.</Empty>{/if}
+        {/snippet}
+      </Tabs>
+      <div class="actions-row spaced">
+        <button type="button" onclick={() => (window = true)}>Window</button>
+        <button type="button" onclick={() => (single = true)}>Page without the sidebar</button>
+      </div>
+    </Card>
   </div>
 </Shell>
+{/if}
+
+{#if window}
+  <Modal title="A window" description="What it holds, then its buttons." close={() => (window = false)}>
+    <p>Escape, the close button or a click outside close it.</p>
+    {#snippet foot()}<button type="button" class="primary" onclick={() => (window = false)}>Done</button>{/snippet}
+  </Modal>
+{/if}
 
 {#if editing}
   <FormModal title={editing.id ? `Edit ${editing.name}` : 'Add a service'} description="Its address and API key." {save} close={() => (editing = null)}>

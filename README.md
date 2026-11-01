@@ -16,7 +16,10 @@ and doesn't use it.
   `Secret`, `Loading`, `Empty`, `Busy` (a button that waits for the server),
   `RowActions` (Edit, Delete), `Modal`, `FormModal`, `Dialogs` and `ask` /
   `tell` (confirmations), `Toasts` and `toast`, `Tabs` (parts of one thing,
-  one at a time; arrow keys between them).
+  one at a time; arrow keys between them), `Progress` (how far something
+  is), `Single` (a page without the sidebar: signing in, setting up).
+- Helpers: `setLanguage` and `word` (the kit's own few words), `ago`,
+  `day` and `when` (times as the panels show them).
 
 Nothing is edited in place: a list shows its rows with Edit and Delete, and
 forms open in a `FormModal`; a new one too.
@@ -34,7 +37,7 @@ keyboard focus back to the button that opened them when they close.
 A panel installs a tagged version from GitHub (install scripts stay off):
 
 ```sh
-npm install --save-exact github:overfin/ui#v0.1.0
+npm install --save-exact github:overfin/ui#v0.4.3
 ```
 
 ```ts
@@ -48,7 +51,7 @@ import '@overfin/ui/admin.css';
   import { Shell, PageHead, FormModal, Dialogs, Toasts, ask, toast } from '@overfin/ui';
 </script>
 
-<Shell name="Overswell" nav={[{ items: [{ href: '#/', label: 'Home' }] }]} active="#/">
+<Shell name="Overswell" nav={[{ items: [{ href: '/', label: 'Home' }] }]} active="/">
   <PageHead title="Home" />
 </Shell>
 <Dialogs />
