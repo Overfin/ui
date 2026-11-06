@@ -75,7 +75,7 @@ main.wide { max-width: none; }
   .shell { grid-template-columns: minmax(0, 1fr); }
   .sidebar {
     position: sticky; z-index: 5; height: auto; flex-direction: row; align-items: center; gap: .75rem;
-    padding: .6rem .8rem; border-right: none; border-bottom: 1px solid var(--border);
+    padding: .6rem .8rem; border-right: none; border-bottom: 1px solid var(--border); flex-wrap: wrap;
   }
   .brand small, nav .group { display: none; }
   nav { flex-direction: row; overflow-x: auto; scrollbar-width: none; flex: 1; }
@@ -84,7 +84,8 @@ main.wide { max-width: none; }
   nav a svg { display: none; }
   .me { margin: 0; padding: 0; border: none; }
   .me .who-name { display: none; }
-  .sidebar-extra { margin: 0; }
+  /* Its own row under the menu, so the menu keeps its place. */
+  .sidebar-extra { margin: 0; order: 10; flex-basis: 100%; }
   main { padding-top: 1.25rem; }
 }
 

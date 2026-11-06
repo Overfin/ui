@@ -54,6 +54,7 @@
 </Single>
 {:else}
 <Shell name="Overswell" subtitle="Adding" logo="" {nav} active="#services" who="admin@example.org" signOut={() => toast('Signed out.')}>
+  {#snippet extra()}<a href="#services">2 operations in progress</a>{/snippet}
   <PageHead title="Services" description="Radarr and Sonarr, where Overswell adds titles.">
     {#snippet actions()}
       <button class="primary" type="button" onclick={() => (editing = { id: 0, name: '', url: '' })}>Add a service</button>
