@@ -67,7 +67,7 @@
 
   <div class="table-wrap spaced">
     <table>
-      <thead><tr><th>Service</th><th class="hide-narrow">Address</th><th>State</th><th class="hide-narrow">Seen</th><th></th></tr></thead>
+      <thead><tr><th>Service</th><th class="hide-narrow">Address</th><th>State</th><th class="hide-narrow">Seen</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
         {#each services as s (s.id)}
           <tr>

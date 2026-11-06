@@ -6,6 +6,8 @@
 
   let { value, children, after = '' }: { value: string; children: Snippet; after?: string } = $props();
 
+  // The text above names the field.
+  const id = $props.id();
   let input = $state<HTMLInputElement>();
   $effect(() => input?.select());
 
@@ -15,9 +17,9 @@
 </script>
 
 <div class="notice secret">
-  <div>{@render children()}</div>
+  <div id={`${id}-label`}>{@render children()}</div>
   <div class="row">
-    <input bind:this={input} {value} readonly class="mono" onfocus={() => input?.select()} />
+    <input bind:this={input} {value} readonly class="mono" aria-labelledby={`${id}-label`} onfocus={() => input?.select()} />
     <button type="button" onclick={copy}>{word('copy')}</button>
   </div>
   {#if after}<div class="hint">{after}</div>{/if}
