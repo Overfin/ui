@@ -32,6 +32,19 @@
     extra?: Snippet;
     children: Snippet;
   } = $props();
+
+  // On a narrow screen the menu is one line that scrolls sideways: the
+  // page shown keeps its entry in view.
+  let menu = $state<HTMLElement>();
+  $effect(() => {
+    void active;
+    const link = menu?.querySelector<HTMLElement>('a.active');
+    if (!menu || !link || menu.scrollWidth <= menu.clientWidth) return;
+    const box = menu.getBoundingClientRect();
+    const at = link.getBoundingClientRect();
+    if (at.left < box.left) menu.scrollLeft -= box.left - at.left + 16;
+    else if (at.right > box.right) menu.scrollLeft += at.right - box.right + 16;
+  });
 </script>
 
 <div class="shell">
@@ -41,7 +54,7 @@
       <div><strong>{name}</strong>{#if subtitle}<small>{subtitle}</small>{/if}</div>
     </div>
     {#if nav.length > 0}
-      <nav aria-label={word('menu')}>
+      <nav aria-label={word('menu')} bind:this={menu}>
         {#each nav as group, g (g)}
           {#if group.label}<div class="group">{group.label}</div>{/if}
           {#each group.items as item (item.href)}
