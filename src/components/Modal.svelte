@@ -60,7 +60,7 @@
   $effect(() => {
     if (!element || element.open) return;
     element.showModal();
-    element.querySelector<HTMLElement>('.modal-body input:not([type=checkbox]):not([readonly]), .modal-body select, .modal-body textarea')?.focus();
+    element.querySelector<HTMLElement>('.modal-body input:not([type=checkbox]):not([readonly]), .modal-body select, .modal-body textarea')?.focus({ preventScroll: true });
   });
 
   function shut() {
