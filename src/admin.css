@@ -35,7 +35,10 @@ th { position: relative; }
 .sidebar {
   position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 1.25rem;
   padding: 1.25rem .9rem; background: var(--panel); border-right: 1px solid var(--border);
+  /* A menu taller than the screen scrolls inside it, on its background. */
+  overflow-y: auto; scrollbar-width: thin;
 }
+.sidebar > * { flex: none; }
 .brand { display: flex; align-items: center; gap: .65rem; padding: 0 .4rem; }
 .logo { display: block; flex: none; width: 2.3rem; height: 2.3rem; }
 .brand strong { display: block; font-size: 1rem; }
@@ -79,6 +82,8 @@ main.wide { max-width: none; }
     padding: .6rem .8rem; border-right: none; border-bottom: 1px solid var(--border); flex-wrap: wrap;
   }
   .brand small, nav .group { display: none; }
+  .sidebar { overflow: visible; }
+  .sidebar > nav { flex: 1 1 0; min-width: 0; }
   nav { flex-direction: row; overflow-x: auto; scrollbar-width: none; flex: 1; }
   nav::-webkit-scrollbar { display: none; }
   nav a { white-space: nowrap; padding: .45rem .6rem; }
