@@ -116,8 +116,12 @@ section > h2 { font-size: 1.08rem; }
 @media (max-width: 600px) { .card-foot .status:not(:empty), .wizard-foot .status:not(:empty) { flex-basis: 100%; } }
 .card-foot .status.error { color: var(--danger); }
 .card-foot .status.ok { color: var(--ok); }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: 1.25rem; align-items: start; margin-bottom: 1.25rem; }
-.cards > section, .cards > .card { margin: 0; }
+/* Cards fill columns top to bottom, as many columns as the width holds
+   (26rem at least each), each card where the last one in its column ends:
+   a short card leaves no gap under it, the page grows taller instead. */
+.cards { columns: 26rem; column-gap: 1.25rem; margin-bottom: 1.25rem; }
+.cards > * { break-inside: avoid; margin: 0 0 1.25rem; }
+@media (max-width: 30rem) { .cards { columns: 1; } }
 h3 { margin: 1.4rem 0 .5rem; font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 section > h3:first-child { margin-top: 0; }
 
