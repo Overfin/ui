@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
     Shell, PageHead, Card, Field, Setting, Badge, Notice, Status, Avatar, Secret, Loading, Empty,
-    Stats, Busy, RowActions, Modal, FormModal, Dialogs, Toasts, Progress, Single, Tabs, ask, tell, toast, ago,
+    Stats, Busy, RowActions, Modal, FormModal, Dialogs, Toasts, Progress, Single, Tabs, ask, tell, toast, ago, HelpTip,
   } from '../src/index';
   import type { NavGroup } from '../src/index';
 
@@ -108,6 +108,9 @@
       <div class="spaced"></div>
       <Secret value="ovs_3f9a1c2b7d">Overswell's key, shown once:</Secret>
       <Loading />
+    </Card>
+    <Card title="Help" description="A circled question mark beside a title, opened by a click, a tap or a key.">
+      <h3 class="demo-help">Last chance<HelpTip text="Titles in your list, or that you started, which this server is about to remove. Each one says when it leaves: watch it before then." /></h3>
     </Card>
     <Card title="Lists" description="Rows with a picture, rows of text, a notice with its button.">
       <div class="notice-bar">

@@ -1,5 +1,5 @@
-// The few words the kit itself shows (Close, Cancel, Save…). The panels are
-// in English today; a language added here is picked with setLanguage.
+// The few words the kit itself shows (Close, Cancel, Save…), in English and
+// French; a language added here is picked with setLanguage.
 const words = {
   en: {
     close: 'Close',
@@ -15,6 +15,23 @@ const words = {
     menu: 'Menu',
     edit: 'Edit',
     delete: 'Delete',
+    whatIsThis: "What's this?",
+  },
+  fr: {
+    close: 'Fermer',
+    cancel: 'Annuler',
+    save: 'Enregistrer',
+    confirm: 'Confirmer',
+    ok: 'OK',
+    sure: 'Êtes-vous sûr ?',
+    copy: 'Copier',
+    copied: 'Copié.',
+    loading: 'Chargement…',
+    signOut: 'Se déconnecter',
+    menu: 'Menu',
+    edit: 'Modifier',
+    delete: 'Supprimer',
+    whatIsThis: 'Qu’est-ce que c’est ?',
   },
 } satisfies Record<string, Record<string, string>>;
 

@@ -1,12 +1,12 @@
 # Overfin UI
 
 The look and the shared [Svelte](https://svelte.dev) components of Overfin's
-panels: [Overfin](https://github.com/overfin/server)'s control panel and
-setup, [Overtide](https://github.com/overfin/overtide) and
-[Overswell](https://github.com/overfin/overswell). One place for all of
-them, so they look, feel and work the same. Overfin's site
-([overfin-web](https://github.com/overfin/web)) is a different kind of app
-and doesn't use it.
+apps: [Overfin](https://github.com/overfin/server)'s control panel and
+setup, [Overtide](https://github.com/overfin/overtide), and Overfin's site ([overfin-web](https://github.com/overfin/web)). One place
+for all of them, so they look, feel and work the same. The site keeps its
+own controls (its cards, rows and player) and takes from the kit what it
+shares with the panels; components it uses carry their own look, from
+`theme.css`'s values, since the site doesn't load `admin.css`.
 
 - `theme.css`: the values (colors dark and light, corners, shadows, font).
 - `admin.css`: the panels' layout and components, plain classes (`section`,
@@ -17,8 +17,11 @@ and doesn't use it.
   `RowActions` (Edit, Delete), `Modal`, `FormModal`, `Dialogs` and `ask` /
   `tell` (confirmations), `Toasts` and `toast`, `Tabs` (parts of one thing,
   one at a time; arrow keys between them), `Progress` (how far something
-  is), `Single` (a page without the sidebar: signing in, setting up).
-- Helpers: `setLanguage` and `word` (the kit's own few words), `ago`,
+  is), `Single` (a page without the sidebar: signing in, setting up),
+  `HelpTip` (a circled "?" beside a title, saying what it is: opened by a
+  click, a tap or a key, never on hover).
+- Helpers: `setLanguage` and `word` (the kit's own few words, in English
+  and French), `ago`,
   `day` and `when` (times as the panels show them).
 
 Nothing is edited in place: a list shows its rows with Edit and Delete, and
