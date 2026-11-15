@@ -4,12 +4,30 @@
      look, from the theme's values, so the site can use it as well as the
      panels. -->
 <script lang="ts">
+  import { untrack } from 'svelte';
   import { word } from '../lib/labels.svelte';
 
   let { text, label = '' }: { text: string; label?: string } = $props();
 
   let open = $state(false);
   let box = $state<HTMLElement | null>(null);
+  let bubble = $state<HTMLElement | null>(null);
+  // How far the bubble moves left (or right, below 0) to stay on the
+  // screen: it opens under the mark, but a mark near an edge (a phone)
+  // would push it out.
+  let shift = $state(0);
+  const margin = 8;
+
+  $effect(() => {
+    if (!open || !bubble) return;
+    // Where it would be unmoved: its place now, the shift already applied
+    // taken off.
+    const applied = untrack(() => shift);
+    const r = bubble.getBoundingClientRect();
+    const left = r.left + applied, rightEdge = r.right + applied;
+    const over = rightEdge - (document.documentElement.clientWidth - margin);
+    shift = over > 0 ? Math.min(over, left - margin) : left < margin ? left - margin : 0;
+  });
   const id = `help-${Math.random().toString(36).slice(2, 10)}`;
 
   $effect(() => {
@@ -31,7 +49,7 @@
 
 <span class="help" bind:this={box}>
   <button type="button" class="mark" aria-label={label || word('whatIsThis')} aria-expanded={open} aria-controls={id} onclick={() => (open = !open)}>?</button>
-  {#if open}<span class="bubble" id={id} role="note">{text}</span>{/if}
+  {#if open}<span class="bubble" id={id} role="note" bind:this={bubble} style:transform={shift ? `translateX(${-shift}px)` : undefined}>{text}</span>{/if}
 </span>
 
 <style>
