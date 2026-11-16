@@ -11,8 +11,17 @@
   let input = $state<HTMLInputElement>();
   $effect(() => input?.select());
 
-  function copy() {
-    navigator.clipboard?.writeText(value).then(() => toast(word('copied')), () => input?.select());
+  // Over plain HTTP (a panel on the local network) the browser has no
+  // clipboard API: the selected field is copied the old way.
+  async function copy() {
+    try {
+      if (!navigator.clipboard) throw new Error('no clipboard API');
+      await navigator.clipboard.writeText(value);
+    } catch {
+      input?.select();
+      if (!document.execCommand('copy')) return;
+    }
+    toast(word('copied'));
   }
 </script>
 
