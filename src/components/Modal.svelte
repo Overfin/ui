@@ -17,7 +17,7 @@
 <script lang="ts">
   import { onDestroy, type Snippet } from 'svelte';
   import { word } from '../lib/labels.svelte';
-  import { toasts } from '../lib/toast.svelte';
+  import { said } from '../lib/toast.svelte';
 
   let {
     title,
@@ -94,5 +94,5 @@
   {#if foot}<div class="card-foot">{@render foot()}</div>{/if}
   <!-- Outside an open window, everything is out of reach of screen readers,
        the messages in the corner too: the latest is read out from here. -->
-  <div class="visually-hidden" role="status" aria-live="polite">{toasts.at(-1)?.text ?? ''}</div>
+  <div class="visually-hidden" role="status" aria-live="polite">{said.text}</div>
 </dialog>

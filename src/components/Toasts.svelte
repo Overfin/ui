@@ -1,7 +1,7 @@
 <!-- The messages of toast() (lib/toast), in the corner. Put one in the
      panel's root. -->
 <script lang="ts">
-  import { toasts } from '../lib/toast.svelte';
+  import { said, toasts } from '../lib/toast.svelte';
 
   // An open window (a modal <dialog>) sits in the browser's top layer, above
   // anything a z-index can lift: a message said from inside it, a failure
@@ -31,7 +31,7 @@
 
 <!-- Read out from a region always there (a popover hidden is out of the
      page, and a region that appears with its words in it isn't read). -->
-<div class="visually-hidden" role="status" aria-live="polite">{toasts.at(-1)?.text ?? ''}</div>
+<div class="visually-hidden" role="status" aria-live="polite">{said.text}</div>
 <div class="toasts" popover="manual" aria-hidden="true" bind:this={box}>
   {#each toasts as t (t.id)}
     <div class="toast" class:error={t.error}>{t.text}</div>
