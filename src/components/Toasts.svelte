@@ -29,8 +29,11 @@
   });
 </script>
 
-<div class="toasts" popover="manual" aria-live="polite" bind:this={box}>
+<!-- Read out from a region always there (a popover hidden is out of the
+     page, and a region that appears with its words in it isn't read). -->
+<div class="visually-hidden" role="status" aria-live="polite">{toasts.at(-1)?.text ?? ''}</div>
+<div class="toasts" popover="manual" aria-hidden="true" bind:this={box}>
   {#each toasts as t (t.id)}
-    <div class="toast" class:error={t.error} role="status">{t.text}</div>
+    <div class="toast" class:error={t.error}>{t.text}</div>
   {/each}
 </div>
