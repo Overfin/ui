@@ -8,16 +8,24 @@
   // above all, would be hidden behind it. The messages are a popover, shown
   // again for each new one so they come above the newest window too.
   let box = $state<HTMLDivElement>();
-  $effect(() => {
-    const n = toasts.length;
+  function raise() {
     const el = box;
     if (!el || typeof el.showPopover !== 'function') return;
     try {
       if (el.matches(':popover-open')) el.hidePopover();
-      if (n > 0) el.showPopover();
+      if (toasts.length > 0) el.showPopover();
     } catch {
       // Not connected yet, or no popovers in this browser: the corner as before.
     }
+  }
+  $effect(() => {
+    void toasts.length;
+    raise();
+  });
+  // A window opened after a message: the message comes above it again.
+  $effect(() => {
+    document.addEventListener('kit-window', raise);
+    return () => document.removeEventListener('kit-window', raise);
   });
 </script>
 

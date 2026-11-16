@@ -17,6 +17,7 @@
 <script lang="ts">
   import { onDestroy, type Snippet } from 'svelte';
   import { word } from '../lib/labels.svelte';
+  import { toasts } from '../lib/toast.svelte';
 
   let {
     title,
@@ -60,6 +61,8 @@
   $effect(() => {
     if (!element || element.open) return;
     element.showModal();
+    // Messages already in the corner come back above this window.
+    document.dispatchEvent(new Event('kit-window'));
     element.querySelector<HTMLElement>('.modal-body input:not([type=checkbox]):not([readonly]), .modal-body select, .modal-body textarea')?.focus({ preventScroll: true });
   });
 
@@ -72,6 +75,13 @@
 <dialog class="modal" class:wide={size === 'wide'} class:small={size === 'small'} class:stacked bind:this={element}
   role={alert ? 'alertdialog' : undefined} aria-labelledby={id}
   oncancel={(e) => { e.preventDefault(); shut(); }}
+  onclose={() => {
+    // Closed by the browser itself (a second Escape, which a page can't
+    // stop twice in a row): open again while busy, else closed for good,
+    // so the page isn't left held still behind nothing.
+    if (busy && element?.isConnected) element.showModal();
+    else close();
+  }}
   onclick={(e) => { if (e.target === element) shut(); }}>
   <div class="card-head">
     <div>
@@ -82,4 +92,7 @@
   </div>
   <div class="modal-body">{@render children()}</div>
   {#if foot}<div class="card-foot">{@render foot()}</div>{/if}
+  <!-- Outside an open window, everything is out of reach of screen readers,
+       the messages in the corner too: the latest is read out from here. -->
+  <div class="visually-hidden" role="status" aria-live="polite">{toasts.at(-1)?.text ?? ''}</div>
 </dialog>
