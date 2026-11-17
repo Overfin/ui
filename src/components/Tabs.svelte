@@ -41,8 +41,10 @@
   }
 </script>
 
-<!-- svelte-ignore a11y_interactive_supports_focus -->
-<div class="tabs" role="tablist" aria-label={label} bind:this={list} onkeydown={key}>
+<!-- The list scrolls sideways when the names don't fit, and Firefox makes
+     a strip that scrolls a Tab stop of its own: tabindex -1 keeps it out
+     (the arrows bring each tab into view). -->
+<div class="tabs" role="tablist" aria-label={label} tabindex="-1" bind:this={list} onkeydown={key}>
   {#each tabs as t, i (t.id)}
     <button type="button" role="tab" id="{id}-{i}" aria-selected={t.id === chosen} aria-controls="{id}-panel"
       tabindex={t.id === chosen ? 0 : -1} onclick={() => (current = t.id)}>{t.label}</button>

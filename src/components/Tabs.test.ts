@@ -80,3 +80,15 @@ describe('Tabs', () => {
     expect(bound()).toBe('');
   });
 });
+
+describe('Tabs in the Tab order', () => {
+  it('Tab from before them lands on the chosen tab, the list itself no stop of its own', async () => {
+    const before = document.createElement('button');
+    before.textContent = 'Before';
+    document.body.append(before);
+    render(TabsHarness, { tabs: three, current: 'queue' });
+    before.focus();
+    await userEvent.tab();
+    expect(document.activeElement?.textContent).toBe('Queue');
+  });
+});
