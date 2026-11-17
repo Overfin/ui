@@ -374,7 +374,8 @@ dialog.modal .close {
   font-size: 1.4rem; line-height: 1; color: var(--muted);
 }
 dialog.modal .close:hover { color: var(--text); background: var(--panel-2); }
-dialog.modal p.ask { margin: 0; }
+/* A long path or address in a question breaks rather than widen it. */
+dialog.modal p.ask { margin: 0; overflow-wrap: anywhere; }
 .modal-form { display: grid; gap: .9rem; }
 /* A list's row actions: Edit, Delete. */
 td.row-actions, .row-actions { white-space: nowrap; text-align: right; }
