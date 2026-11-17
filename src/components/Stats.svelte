@@ -4,7 +4,7 @@
 </script>
 
 <div class="stats">
-  {#each items as s (s.label)}
+  {#each items as s, i (i)}
     <div class="stat"><b>{s.value}</b><span>{s.label}</span></div>
   {/each}
 </div>

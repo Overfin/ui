@@ -13,7 +13,7 @@
 </script>
 
 <section>
-  {#if title || badge}
+  {#if title || description || badge}
     <div class="card-head">
       <div>
         {#if title}<h2>{title}</h2>{/if}
