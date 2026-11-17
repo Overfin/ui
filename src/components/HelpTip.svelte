@@ -18,8 +18,8 @@
   let shift = $state(0);
   const margin = 8;
 
-  $effect(() => {
-    if (!open || !bubble) return;
+  function place() {
+    if (!bubble) return;
     // Where it would be unmoved: its place now, the shift already applied
     // taken off.
     const applied = untrack(() => shift);
@@ -27,6 +27,13 @@
     const left = r.left + applied, rightEdge = r.right + applied;
     const over = rightEdge - (document.documentElement.clientWidth - margin);
     shift = over > 0 ? Math.min(over, left - margin) : left < margin ? left - margin : 0;
+  }
+  $effect(() => {
+    if (!open || !bubble) return;
+    place();
+    // Placed again when the window changes size (a phone turned) while open.
+    window.addEventListener('resize', place);
+    return () => window.removeEventListener('resize', place);
   });
   const id = `help-${Math.random().toString(36).slice(2, 10)}`;
 

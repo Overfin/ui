@@ -111,3 +111,24 @@ describe('HelpTip, the focus elsewhere', () => {
     expect(document.querySelector('.mark')!.getAttribute('aria-expanded')).toBe('false');
   });
 });
+
+describe('HelpTip, the window resized', () => {
+  it('open near the right edge, it stays on the screen when the window narrows', async () => {
+    const { page } = await import('vitest/browser');
+    const spot = document.createElement('div');
+    spot.className = 'mid';
+    document.body.append(spot);
+    const s = document.createElement('style');
+    s.textContent = '.mid { position: absolute; left: 600px; top: 10px; }';
+    document.head.append(s);
+    render(HelpTip, { text: say.repeat(3) }, spot);
+    await userEvent.click(document.querySelector('.mark')!);
+    await frame();
+    await page.viewport(700, 800);
+    await frame();
+    await frame();
+    const r = document.querySelector('.bubble')!.getBoundingClientRect();
+    expect(r.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
+    await page.viewport(1536, 864);
+  });
+});
