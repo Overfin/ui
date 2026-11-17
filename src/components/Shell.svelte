@@ -33,32 +33,52 @@
     children: Snippet;
   } = $props();
 
-  // On a narrow screen the menu is one line that scrolls sideways: the
-  // page shown keeps its entry in view.
-  let menu = $state<HTMLElement>();
+  // On a narrow screen the sidebar is a bar on top, and the menu opens
+  // from its Menu button, over the page; picking a page closes it.
+  let open = $state(false);
+  let toggle = $state<HTMLButtonElement>();
+  let page = $state<HTMLElement>();
+  const navId = `nav-${Math.random().toString(36).slice(2)}`;
   $effect(() => {
     void active;
-    const link = menu?.querySelector<HTMLElement>('a.active');
-    if (!menu || !link || menu.scrollWidth <= menu.clientWidth) return;
-    const box = menu.getBoundingClientRect();
-    const at = link.getBoundingClientRect();
-    if (at.left < box.left) menu.scrollLeft -= box.left - at.left + 16;
-    else if (at.right > box.right) menu.scrollLeft += at.right - box.right + 16;
+    open = false;
   });
+
+  function key(e: KeyboardEvent) {
+    if (e.key === 'Escape' && open) {
+      open = false;
+      toggle?.focus();
+    }
+  }
+
+  // Skipping the menu: the focus goes to the page itself. A link to an
+  // anchor would change the address, which the panels' pages are named by.
+  function skip(e: MouseEvent) {
+    e.preventDefault();
+    page?.focus();
+  }
 </script>
 
 <div class="shell">
-  <aside class="sidebar" aria-label={name}>
+  <a class="skip-link" href="#page" onclick={skip}>{word('skip')}</a>
+  <!-- tabindex -1: the sidebar scrolls when the menu is long, and Firefox
+       makes what scrolls a Tab stop of its own. -->
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+  <aside class="sidebar" aria-label={name} tabindex="-1" onkeydown={key}>
     <div class="brand">
       {#if logo}<img class="logo" src={logo} alt="" />{/if}
       <div><strong>{name}</strong>{#if subtitle}<small>{subtitle}</small>{/if}</div>
     </div>
     {#if nav.length > 0}
-      <nav aria-label={word('menu')} bind:this={menu}>
+      <button type="button" class="menu-toggle ghost" bind:this={toggle} aria-expanded={open} aria-controls={navId} onclick={() => (open = !open)}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        {word('menu')}
+      </button>
+      <nav id={navId} class:open aria-label={word('menu')} tabindex="-1">
         {#each nav as group, g (g)}
           {#if group.label}<div class="group">{group.label}</div>{/if}
           {#each group.items as item, n (n)}
-            <a href={item.href} class:active={item.href === active} aria-current={item.href === active ? 'page' : undefined}>
+            <a href={item.href} class:active={item.href === active} aria-current={item.href === active ? 'page' : undefined} onclick={() => (open = false)}>
               {#if item.icon}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   {#each item.icon as d, i (i)}<path {d} />{/each}
@@ -78,5 +98,5 @@
       </div>
     {/if}
   </aside>
-  <main class:wide>{@render children()}</main>
+  <main class:wide id="page" tabindex="-1" bind:this={page}>{@render children()}</main>
 </div>

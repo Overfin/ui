@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import Shell from './Shell.svelte';
 import { setLanguage } from '../lib/labels.svelte';
@@ -9,6 +9,8 @@ const nav: NavGroup[] = [
   { items: [{ href: '#home', label: 'Home', icon: ['M3 11l9-7 9 7'] }] },
   { label: 'Library', items: [{ href: '#services', label: 'Services' }, { href: '#settings', label: 'Settings' }] },
 ];
+
+afterEach(() => page.viewport(1536, 864));
 
 describe('Shell', () => {
   it('has the sidebar named after the panel, its menu, and the page as main', async () => {
@@ -61,10 +63,59 @@ describe('Shell', () => {
     document.body.tabIndex = -1;
     document.body.focus();
     const order: string[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       await userEvent.tab();
       order.push(document.activeElement?.textContent?.trim() ?? '');
     }
-    expect(order).toEqual(['Home', 'Services', 'Settings', 'Sign out', 'In the page']);
+    expect(order).toEqual(['Skip to the page', 'Home', 'Services', 'Settings', 'Sign out', 'In the page']);
+  });
+
+  it('skips the menu to the page, the address unchanged', async () => {
+    render(Shell, { name: 'P', nav, active: '#home', children: html('<button id="in-page">In the page</button>') });
+    const before = location.href;
+    document.body.tabIndex = -1;
+    document.body.focus();
+    await userEvent.tab();
+    const skip = document.activeElement as HTMLElement;
+    expect(skip.textContent).toBe('Skip to the page');
+    expect(skip.getBoundingClientRect().top).toBeGreaterThanOrEqual(0); // seen once it has the focus
+    await userEvent.keyboard('{Enter}');
+    expect(document.activeElement).toBe(document.querySelector('main'));
+    expect(location.href).toBe(before);
+    await userEvent.tab();
+    expect(document.activeElement?.id).toBe('in-page');
+  });
+
+  it('has no menu button on a wide screen', () => {
+    render(Shell, { name: 'P', nav, active: '#home', children: html('<p></p>') });
+    expect(getComputedStyle(document.querySelector('.menu-toggle')!).display).toBe('none');
+    expect(getComputedStyle(document.querySelector('nav')!).display).not.toBe('none');
+  });
+
+  it('on a phone, opens the menu from its button, whole, and closes it', async () => {
+    await page.viewport(390, 844);
+    render(Shell, { name: 'P', nav, active: '#home', signOut: () => {}, children: html('<p></p>') });
+    const toggle = page.getByRole('button', { name: 'Menu' });
+    const menu = document.querySelector('nav')!;
+    await expect.element(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(getComputedStyle(menu).display).toBe('none');
+    await toggle.click();
+    await expect.element(toggle).toHaveAttribute('aria-expanded', 'true');
+    // Every entry within the screen, none cut, and the groups named.
+    for (const a of menu.querySelectorAll('a')) {
+      const box = a.getBoundingClientRect();
+      expect(box.left).toBeGreaterThanOrEqual(0);
+      expect(box.right).toBeLessThanOrEqual(390);
+    }
+    expect(getComputedStyle(menu.querySelector('.group')!).display).not.toBe('none');
+    // Escape closes it, the focus back on its button.
+    (menu.querySelector('a') as HTMLElement).focus();
+    await userEvent.keyboard('{Escape}');
+    await expect.element(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(document.activeElement).toBe(toggle.element());
+    // A page picked closes it.
+    await toggle.click();
+    await page.getByRole('link', { name: 'Services' }).click();
+    await expect.element(toggle).toHaveAttribute('aria-expanded', 'false');
   });
 });

@@ -54,6 +54,16 @@ nav a svg { width: 1.1rem; height: 1.1rem; flex: none; opacity: .85; }
 nav a:hover { background: var(--panel-2); color: var(--text); }
 nav a.active { background: var(--accent-soft); color: var(--text); }
 nav a.active svg { color: var(--accent); opacity: 1; }
+/* The menu's button, on a narrow screen only (below). */
+.menu-toggle { display: none; align-items: center; gap: .4rem; }
+.menu-toggle svg { width: 1.2rem; height: 1.2rem; }
+/* Skipping the menu: out of sight until the keyboard reaches it. */
+.skip-link {
+  position: absolute; inset-inline-start: .75rem; top: -10rem; z-index: 50; padding: .5rem .9rem;
+  background: var(--panel); border: 1px solid var(--border-strong); border-radius: var(--radius-s); font-weight: 600;
+}
+.skip-link:focus { top: .75rem; }
+main:focus { outline: none; }
 .sidebar-extra { margin-top: auto; display: grid; gap: .4rem; }
 .sidebar-extra + .me { margin-top: 0; }
 .me { margin-top: auto; display: grid; gap: .5rem; padding: .8rem .6rem 0; border-top: 1px solid var(--border); }
@@ -83,14 +93,19 @@ main.wide { max-width: none; }
     position: sticky; z-index: 5; height: auto; flex-direction: row; align-items: center; gap: .75rem;
     padding: .6rem .8rem; border-inline-end: none; border-bottom: 1px solid var(--border); flex-wrap: wrap;
   }
-  .brand small, nav .group { display: none; }
+  .brand small { display: none; }
   .sidebar { overflow: visible; }
-  .sidebar > nav { flex: 1 1 0; min-width: 0; }
-  nav { flex-direction: row; overflow-x: auto; scrollbar-width: none; flex: 1; }
-  nav::-webkit-scrollbar { display: none; }
-  nav a { white-space: nowrap; padding: .45rem .6rem; }
-  nav a svg { display: none; }
-  .me { margin: 0; padding: 0; border: none; }
+  /* The menu: closed under its button, open on its own rows under the
+     bar, its groups named, as many columns as the width holds. */
+  .menu-toggle { display: inline-flex; }
+  .sidebar > nav { display: none; order: 9; flex-basis: 100%; }
+  .sidebar > nav.open {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: .15rem .5rem;
+    max-height: calc(100vh - 4.5rem); overflow-y: auto; padding-top: .3rem; border-top: 1px solid var(--border);
+  }
+  nav .group, nav .group:first-child { grid-column: 1 / -1; margin: .6rem .6rem .1rem; }
+  nav a { padding: .45rem .6rem; }
+  .me { margin: 0; margin-inline-start: auto; padding: 0; border: none; }
   .me .who-name { display: none; }
   /* Its own row under the menu, so the menu keeps its place. */
   .sidebar-extra { margin: 0; order: 10; flex-basis: 100%; }
