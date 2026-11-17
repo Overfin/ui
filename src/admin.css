@@ -383,8 +383,12 @@ dialog.modal.small { width: min(28rem, calc(100vw - 2rem)); }
 dialog.modal::backdrop { background: rgba(5, 6, 9, .72); }
 /* A window over another: the page is darkened once, by the first. */
 dialog.modal.stacked::backdrop { background: transparent; }
-dialog.modal .card-head { margin-bottom: .9rem; }
-dialog.modal .card-foot { position: sticky; bottom: -1.25rem; margin-top: 1.2rem; }
+/* A long window scrolls as one: its title and × stay on top, its buttons
+   at the bottom. */
+dialog.modal .card-head {
+  position: sticky; top: -1.25rem; z-index: 1; margin: -1.25rem 0 .9rem; padding-top: 1.25rem; background: var(--panel);
+}
+dialog.modal .card-foot { position: sticky; bottom: -1.25rem; z-index: 1; margin-top: 1.2rem; }
 dialog.modal .close {
   flex: none; width: 2rem; height: 2rem; min-height: 0; padding: 0; border: none; background: none;
   font-size: 1.4rem; line-height: 1; color: var(--muted);

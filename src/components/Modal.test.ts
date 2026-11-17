@@ -158,4 +158,16 @@ describe('Modal', () => {
     expect(getComputedStyle(left, '::backdrop').backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
     expect(document.documentElement.classList.contains('modal-open')).toBe(true);
   });
+
+  it('keeps its title and close button in view when scrolled to the bottom', async () => {
+    const { dialog } = open({}, `<div>${'<p>Line</p>'.repeat(120)}</div>`);
+    await expect.element(page.getByRole('dialog')).toBeVisible();
+    dialog.scrollTop = dialog.scrollHeight;
+    await new Promise((r) => requestAnimationFrame(r));
+    expect(dialog.scrollTop).toBeGreaterThan(0);
+    const box = dialog.getBoundingClientRect();
+    const close = dialog.querySelector('.close')!.getBoundingClientRect();
+    expect(close.top).toBeGreaterThanOrEqual(box.top);
+    expect(document.elementFromPoint(close.left + close.width / 2, close.top + close.height / 2)).toBe(dialog.querySelector('.close'));
+  });
 });
