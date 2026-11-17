@@ -57,7 +57,7 @@
       <nav aria-label={word('menu')} bind:this={menu}>
         {#each nav as group, g (g)}
           {#if group.label}<div class="group">{group.label}</div>{/if}
-          {#each group.items as item (item.href)}
+          {#each group.items as item, n (n)}
             <a href={item.href} class:active={item.href === active} aria-current={item.href === active ? 'page' : undefined}>
               {#if item.icon}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
