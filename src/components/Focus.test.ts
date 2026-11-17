@@ -55,3 +55,18 @@ describe('the focus, seen', () => {
     });
   }
 });
+
+describe('the focus, seen on a strip that scrolls', () => {
+  it('a table wider than its frame: if the browser makes the frame a Tab stop, its ring shows', async () => {
+    document.body.innerHTML = '<button class="start">s</button><div class="table-wrap"><table><tr><td class="nowrap">' + 'wide '.repeat(600) + '</td></tr></table></div><button class="after">after</button>';
+    document.querySelector<HTMLElement>('.start')!.focus();
+    await userEvent.tab();
+    const el = document.activeElement!;
+    if (el.classList.contains('table-wrap')) {
+      const cs = getComputedStyle(el);
+      expect(`${cs.outlineStyle} ${cs.outlineWidth}`).toBe('solid 2px');
+    } else {
+      expect(el.className).toBe('after');
+    }
+  });
+});
