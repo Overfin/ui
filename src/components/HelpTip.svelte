@@ -57,7 +57,7 @@
 </span>
 
 <style>
-  .help { position: relative; display: inline-flex; align-items: center; vertical-align: middle; margin-left: 0.45em; }
+  .help { position: relative; display: inline-flex; align-items: center; vertical-align: middle; margin-inline-start: 0.45em; }
   /* A fixed size whatever the title's: the panels' and the site's button
      styles (padding, heights) don't reach it. */
   .mark {
@@ -70,7 +70,7 @@
   .mark:hover, .mark[aria-expanded='true'] { border-color: var(--text, #222); color: var(--text, #222); }
   .mark:focus-visible { outline: 2px solid var(--accent, #2b6cb0); outline-offset: 2px; }
   .bubble {
-    position: absolute; z-index: 50; top: calc(100% + 0.4em); left: 0;
+    position: absolute; z-index: 50; top: calc(100% + 0.4em); inset-inline-start: 0;
     width: max-content; max-width: min(22em, 80vw);
     padding: 0.6em 0.8em; border-radius: var(--radius-s, 6px);
     background: var(--panel, #fff); color: var(--text, #222); border: 1px solid var(--border, #ddd);
