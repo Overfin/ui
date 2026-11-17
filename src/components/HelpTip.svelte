@@ -35,8 +35,12 @@
     const away = (e: Event) => {
       if (box && !box.contains(e.target as Node)) open = false;
     };
+    // Escape closes the help; pressed on it, the help only: in a window,
+    // the window stays (a second Escape closes it).
     const escape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') open = false;
+      if (e.key !== 'Escape') return;
+      if (box?.contains(document.activeElement)) e.preventDefault();
+      open = false;
     };
     document.addEventListener('pointerdown', away);
     document.addEventListener('keydown', escape);
