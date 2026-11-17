@@ -8,8 +8,8 @@ import { setLanguage } from '../lib/labels.svelte';
 const mounted: Record<string, unknown>[] = [];
 
 /** render mounts a component in the page; cleanup takes it away after the test. */
-export function render<P extends Record<string, unknown>>(component: Component<P>, props: P): Record<string, unknown> {
-  const app = mount(component, { target: document.body, props });
+export function render<P extends Record<string, unknown>>(component: Component<P>, props: P, target: Element = document.body): Record<string, unknown> {
+  const app = mount(component, { target, props });
   mounted.push(app);
   flushSync();
   return app;
@@ -58,4 +58,29 @@ export function opener(label = 'Open'): HTMLButtonElement {
   document.body.append(b);
   b.focus();
   return b;
+}
+
+/** drawn is the color the browser drew at a point of the page, as seen on
+ * the screen: what is on top there, whatever hit-testing says (a modal
+ * window makes the rest of the page inert, so elementFromPoint skips it). */
+export async function drawn(x: number, y: number): Promise<[number, number, number]> {
+  const { page } = await import('vitest/browser');
+  const shot = await page.screenshot({ save: false });
+  const img = new Image();
+  img.src = `data:image/png;base64,${shot}`;
+  await img.decode();
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const ctx = canvas.getContext('2d')!;
+  ctx.drawImage(img, 0, 0);
+  const scale = img.width / window.innerWidth;
+  const [r, g, b] = ctx.getImageData(Math.round(x * scale), Math.round(y * scale), 1, 1).data;
+  return [r, g, b];
+}
+
+/** color reads a CSS color as numbers. */
+export function rgb(css: string): [number, number, number] {
+  const m = css.match(/\d+(\.\d+)?/g)!.map(Number);
+  return [m[0], m[1], m[2]];
 }

@@ -19,6 +19,9 @@ export default defineConfig({
           name: 'components',
           include: ['src/components/**/*.test.ts'],
           setupFiles: ['src/test/setup.ts'],
+          // One file at a time: the keyboard and the focus belong to one
+          // page, and files run side by side would take them from each other.
+          fileParallelism: false,
           browser: {
             enabled: true,
             provider: playwright(),
