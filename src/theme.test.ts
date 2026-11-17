@@ -64,6 +64,9 @@ const pairs: [string, string, string[], number][] = [
   ['the focus ring on a card', 'accent', ['panel'], 3],
   ['the focus ring on the page', 'accent', ['bg'], 3],
   ['a switch turned on', 'accent', ['panel'], 3],
+  ['a field’s or switch’s edge on a card', 'field-border', ['panel'], 3],
+  ['a field’s edge on the page, and against its inside', 'field-border', ['bg'], 3],
+  ['a field’s edge in a card foot', 'field-border', ['panel-2'], 3],
 ];
 
 afterEach(() => document.documentElement.removeAttribute('data-theme'));

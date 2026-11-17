@@ -140,7 +140,7 @@ section > h3:first-child { margin-top: 0; }
 .field > span:first-child { font-weight: 550; font-size: .9rem; }
 .field .hint { margin-top: -.1rem; }
 input:not([type=checkbox]):not([type=radio]), select, textarea {
-  width: 100%; min-height: 2.5rem; padding: .45rem .7rem; background: var(--bg); border: 1px solid var(--border-strong);
+  width: 100%; min-height: 2.5rem; padding: .45rem .7rem; background: var(--bg); border: 1px solid var(--field-border, var(--border-strong));
   border-radius: var(--radius-s); transition: border-color .15s, box-shadow .15s;
 }
 input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible {
@@ -159,7 +159,7 @@ input::placeholder { color: var(--faint); }
 /* Switches: checkboxes that look like them. */
 input[type=checkbox] {
   appearance: none; flex: none; width: 2.5rem; height: 1.45rem; margin: 0; border-radius: 999px; cursor: pointer;
-  background: var(--panel-3); border: 1px solid var(--border-strong); position: relative; transition: background .15s, border-color .15s;
+  background: var(--panel-3); border: 1px solid var(--field-border, var(--border-strong)); position: relative; transition: background .15s, border-color .15s;
 }
 input[type=checkbox]::after {
   content: ""; position: absolute; top: 2px; inset-inline-start: 2px; width: calc(1.45rem - 6px); height: calc(1.45rem - 6px);

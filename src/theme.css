@@ -18,6 +18,9 @@
   --panel-3: #262a33;
   --border: #2b2f39;
   --border-strong: #383d49;
+  /* A field's and a switch's edge: 3:1 against what it sits on, since the
+     edge is what shows there is a field. */
+  --field-border: #636c81;
   --text: #ececf0;
   --text-rgb: 236, 236, 240;
   --muted: #a1a4ad;
@@ -61,6 +64,7 @@
   --panel-3: #eceef3;
   --border: #e2e5eb;
   --border-strong: #cfd3dc;
+  --field-border: #848ea5;
   --text: #1b1e25;
   --text-rgb: 27, 30, 37;
   --muted: #5f6573;
@@ -98,6 +102,7 @@
     --panel-3: #eceef3;
     --border: #e2e5eb;
     --border-strong: #cfd3dc;
+    --field-border: #848ea5;
     --text: #1b1e25;
     --text-rgb: 27, 30, 37;
     --muted: #5f6573;
