@@ -21,23 +21,33 @@
   const id = `tabs-${Math.random().toString(36).slice(2)}`;
   let list = $state<HTMLElement>();
 
+  // The tab shown as chosen: the current one, or the first when current
+  // names none of them (so Tab still reaches the list).
+  const chosen = $derived(tabs.some((t) => t.id === current) ? current : (tabs[0]?.id ?? ''));
+  // Each tab's element id: by its place, since a tab's id may hold any
+  // character (a space, a slash) and the element ids are only ours.
+  const at = $derived(Math.max(0, tabs.findIndex((t) => t.id === chosen)));
+
   function key(e: KeyboardEvent) {
-    const at = tabs.findIndex((t) => t.id === current);
-    const to = { ArrowRight: at + 1, ArrowLeft: at - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (tabs.length === 0) return;
+    // On a right-to-left page the next tab is on the left.
+    const next = list && getComputedStyle(list).direction === 'rtl' ? -1 : 1;
+    const to = { ArrowRight: at + next, ArrowLeft: at - next, Home: 0, End: tabs.length - 1 }[e.key];
     if (to === undefined) return;
     e.preventDefault();
-    current = tabs[(to + tabs.length) % tabs.length].id;
-    list?.querySelector<HTMLElement>(`#${id}-${current}`)?.focus();
+    const i = (to + tabs.length) % tabs.length;
+    current = tabs[i].id;
+    list?.querySelectorAll<HTMLElement>('[role=tab]')[i]?.focus();
   }
 </script>
 
 <!-- svelte-ignore a11y_interactive_supports_focus -->
 <div class="tabs" role="tablist" aria-label={label} bind:this={list} onkeydown={key}>
-  {#each tabs as t (t.id)}
-    <button type="button" role="tab" id="{id}-{t.id}" aria-selected={t.id === current} aria-controls="{id}-panel"
-      tabindex={t.id === current ? 0 : -1} onclick={() => (current = t.id)}>{t.label}</button>
+  {#each tabs as t, i (t.id)}
+    <button type="button" role="tab" id="{id}-{i}" aria-selected={t.id === chosen} aria-controls="{id}-panel"
+      tabindex={t.id === chosen ? 0 : -1} onclick={() => (current = t.id)}>{t.label}</button>
   {/each}
 </div>
-<div class="tab-panel" role="tabpanel" id="{id}-panel" aria-labelledby="{id}-{current}">
+<div class="tab-panel" role="tabpanel" id="{id}-panel" aria-labelledby={tabs.length ? `${id}-${at}` : undefined}>
   {@render children(current)}
 </div>
