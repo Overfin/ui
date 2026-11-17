@@ -9,17 +9,32 @@
   // The text above names the field.
   const id = $props.id();
   let input = $state<HTMLInputElement>();
+  let button = $state<HTMLButtonElement>();
   $effect(() => input?.select());
 
   // Over plain HTTP (a panel on the local network) the browser has no
-  // clipboard API: the selected field is copied the old way.
+  // clipboard API: the field is copied the old way, focused and selected
+  // (a browser copies the selection of the field with the focus), then the
+  // focus goes back to Copy. If even that fails, the field stays selected,
+  // to be copied by hand, and the toast says so.
   async function copy() {
     try {
       if (!navigator.clipboard) throw new Error('no clipboard API');
       await navigator.clipboard.writeText(value);
     } catch {
+      input?.focus();
       input?.select();
-      if (!document.execCommand('copy')) return;
+      let done = false;
+      try {
+        done = document.execCommand('copy');
+      } catch {
+        done = false;
+      }
+      if (!done) {
+        toast(word('copyByHand'), true);
+        return;
+      }
+      button?.focus();
     }
     toast(word('copied'));
   }
@@ -29,7 +44,7 @@
   <div id={`${id}-label`}>{@render children()}</div>
   <div class="row">
     <input bind:this={input} {value} readonly class="mono" aria-labelledby={`${id}-label`} onfocus={() => input?.select()} />
-    <button type="button" onclick={copy}>{word('copy')}</button>
+    <button type="button" bind:this={button} onclick={copy}>{word('copy')}</button>
   </div>
   {#if after}<div class="hint">{after}</div>{/if}
 </div>

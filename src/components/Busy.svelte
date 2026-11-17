@@ -3,10 +3,11 @@
 <script lang="ts">
   import { tick, type Snippet } from 'svelte';
   import { toast } from '../lib/toast.svelte';
+  import { word } from '../lib/labels.svelte';
 
   let {
     action,
-    fail = (err: Error) => toast(err.message, true),
+    fail = (err: Error) => toast(err.message || word('failed'), true),
     kind = '',
     small = false,
     disabled = false,

@@ -44,7 +44,9 @@
       close();
     } catch (err) {
       busy = false;
-      failure = err instanceof Error ? err.message : String(err);
+      // A failure without words still says something: the window stays
+      // open, and a silent one would look like nothing happened.
+      failure = (err instanceof Error ? err.message : String(err)) || word('failed');
     }
   }
 </script>
