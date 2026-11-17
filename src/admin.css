@@ -456,6 +456,22 @@ th a:hover, th a.on { color: var(--text); }
   background: repeating-conic-gradient(var(--panel-3) 0 25%, var(--panel-2) 0 50%) 0 0 / 1rem 1rem;
 }
 
+/* Forced colors (Windows' high contrast): the system's colors replace the
+   page's, and backgrounds go. What only a background said is said another
+   way: a switch draws itself in system colors (on: the highlight), the
+   menu underlines the page shown, dots stay drawn. */
+@media (forced-colors: active) {
+  input[type=checkbox], input[type=checkbox]::after, .badge::before, .toast::before { forced-color-adjust: none; }
+  input[type=checkbox] { background: Canvas; border-color: CanvasText; }
+  input[type=checkbox]::after { background: CanvasText; }
+  input[type=checkbox]:checked { background: Highlight; border-color: Highlight; }
+  input[type=checkbox]:checked::after { background: HighlightText; }
+  input[type=checkbox]:disabled { border-color: GrayText; }
+  input[type=checkbox]:disabled::after { background: GrayText; }
+  .badge::before, .toast::before { background: CanvasText; }
+  nav a.active { text-decoration: underline; text-underline-offset: .3em; }
+}
+
 /* People who ask their device for less motion get none. */
 @media (prefers-reduced-motion: reduce) {
   .toast, .loading::before { animation: none; }
