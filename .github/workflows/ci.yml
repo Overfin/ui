@@ -23,6 +23,11 @@ jobs:
       - name: Install
         run: npm ci
 
+      # The components' tests run in a real Firefox (windows, popovers,
+      # focus and keys as a browser does them).
+      - name: Firefox for the tests
+        run: npx playwright install --with-deps firefox
+
       - name: Types
         run: npm run check
 

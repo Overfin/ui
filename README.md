@@ -68,9 +68,10 @@ build, with `vitePreprocess`, compiles them.
 
 ```sh
 npm install
+npx playwright install firefox   # once: the browser the component tests run in
 npm run dev     # the demo: every component on one page (demo/)
 npm run check   # types
-npm test        # unit tests
+npm test        # the helpers' tests, then the components' in a headless Firefox
 ```
 
 ## How it's made

@@ -19,7 +19,9 @@
     "./admin.css": "./src/admin.css"
   },
   "files": [
-    "src"
+    "src",
+    "!src/**/*.test.ts",
+    "!src/test"
   ],
   "scripts": {
     "dev": "vite demo",
@@ -32,6 +34,8 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "7.3.1",
+    "@vitest/browser-playwright": "5.1.0",
+    "playwright": "1.56.1",
     "svelte": "5.57.3",
     "svelte-check": "4.7.8",
     "typescript": "6.0.3",
