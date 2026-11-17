@@ -74,7 +74,9 @@ export async function drawn(x: number, y: number): Promise<[number, number, numb
   canvas.height = img.height;
   const ctx = canvas.getContext('2d')!;
   ctx.drawImage(img, 0, 0);
-  const scale = img.width / window.innerWidth;
+  // A shot is in device pixels, from the page's top left (Chromium's
+  // leaves its classic scrollbar out, so it's narrower than the window).
+  const scale = window.devicePixelRatio;
   const [r, g, b] = ctx.getImageData(Math.round(x * scale), Math.round(y * scale), 1, 1).data;
   return [r, g, b];
 }

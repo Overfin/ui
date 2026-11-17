@@ -1,4 +1,4 @@
-// The tests: the kit's helpers in Node, its components in a real Firefox
+// The tests: the kit's helpers in Node, its components in a real Firefox and Chromium
 // (windows, popovers, the focus and the keyboard as a browser does them),
 // run headless by Playwright.
 import { defineConfig } from 'vitest/config';
@@ -26,7 +26,10 @@ export default defineConfig({
             enabled: true,
             provider: playwright(),
             headless: true,
-            instances: [{ browser: 'firefox', viewport: { width: 1536, height: 864 } }],
+            instances: [
+              { browser: 'firefox', viewport: { width: 1536, height: 864 } },
+              { browser: 'chromium', viewport: { width: 1536, height: 864 } },
+            ],
           },
         },
       },

@@ -12,7 +12,8 @@ async function onTop(el: Element): Promise<boolean> {
   const r = el.getBoundingClientRect();
   const want = rgb(getComputedStyle(el).backgroundColor);
   const got = await drawn(r.left + 6, r.top + r.height / 2);
-  return got.every((c, i) => Math.abs(c - want[i]) <= 3);
+  // A few levels off: browsers round colors their own way in a shot.
+  return got.every((c, i) => Math.abs(c - want[i]) <= 8);
 }
 
 // A window that covers the whole corner where the messages are.
