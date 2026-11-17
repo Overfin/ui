@@ -1,24 +1,25 @@
-// Times and numbers as the panels show them.
+// Times and numbers as the panels show them, in the kit's language.
+import { locale, word } from './labels.svelte';
 
 /** ago says how long ago, roughly: "5 min ago", "3 h ago", "2 d ago". */
 export function ago(iso: string | undefined, now = Date.now()): string {
   const t = iso ? new Date(iso).getTime() : Number.NaN;
   if (!Number.isFinite(t)) return '';
   const min = Math.round((now - t) / 60000);
-  if (min < 1) return 'just now';
-  if (min < 60) return `${min} min ago`;
-  if (min < 48 * 60) return `${Math.round(min / 60)} h ago`;
-  return `${Math.round(min / 1440)} d ago`;
+  if (min < 1) return word('justNow');
+  if (min < 60) return word('minutesAgo', min);
+  if (min < 48 * 60) return word('hoursAgo', Math.round(min / 60));
+  return word('daysAgo', Math.round(min / 1440));
 }
 
 /** when is a date and time in the browser's way of writing them. */
 export function when(iso: string | undefined): string {
-  return readable(iso) ? new Date(iso!).toLocaleString() : '';
+  return readable(iso) ? new Date(iso!).toLocaleString(locale()) : '';
 }
 
 /** day is a date in the browser's way of writing it. */
 export function day(iso: string | undefined): string {
-  return readable(iso) ? new Date(iso!).toLocaleDateString() : '';
+  return readable(iso) ? new Date(iso!).toLocaleDateString(locale()) : '';
 }
 
 // A time a page can show: given, and one the browser can read (else it
