@@ -147,4 +147,15 @@ describe('Modal', () => {
     const { dialog } = open({ title: 'חלון '.repeat(3) + 'x'.repeat(200) });
     expect(dialog.scrollWidth).toBeLessThanOrEqual(dialog.clientWidth + 1);
   });
+
+  it('the window under another closing first: the one left darkens the page itself', () => {
+    const a = render(Modal, { title: 'A', close: () => {}, children: html('<p>a</p>') });
+    render(Modal, { title: 'B', close: () => {}, children: html('<p>b</p>') });
+    expect(document.querySelectorAll('dialog.stacked').length).toBe(1);
+    remove(a);
+    const left = document.querySelector('dialog')!;
+    expect(left.classList.contains('stacked')).toBe(false);
+    expect(getComputedStyle(left, '::backdrop').backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
+    expect(document.documentElement.classList.contains('modal-open')).toBe(true);
+  });
 });

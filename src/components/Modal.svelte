@@ -8,10 +8,11 @@
   // since the first one is gone: it takes this instead, so the focus still
   // ends on the button that started the chain.
   let returning: HTMLElement | null = null;
-  // How many windows are open: one opened over another doesn't darken the
-  // page again (the first one did); while any is, the page behind holds
-  // still (html.modal-open).
-  let open = 0;
+  // The windows open, the first at the bottom: one over another doesn't
+  // darken the page again (the bottom one does, whichever is left at the
+  // bottom when one closes); while any is, the page behind holds still
+  // (html.modal-open).
+  const windows = $state<string[]>([]);
 </script>
 
 <script lang="ts">
@@ -47,10 +48,12 @@
   // back when the window closes, so a keyboard carries on from there.
   const focused = document.activeElement as HTMLElement | null;
   const opener = !focused || focused === document.body ? returning : focused;
-  const stacked = open > 0;
-  if (open++ === 0) document.documentElement.classList.add('modal-open');
+  windows.push(id);
+  const stacked = $derived(windows.indexOf(id) > 0);
+  document.documentElement.classList.add('modal-open');
   onDestroy(() => {
-    if (--open === 0) document.documentElement.classList.remove('modal-open');
+    windows.splice(windows.indexOf(id), 1);
+    if (windows.length === 0) document.documentElement.classList.remove('modal-open');
     returning = opener;
     requestAnimationFrame(() => {
       if (returning === opener) returning = null;
