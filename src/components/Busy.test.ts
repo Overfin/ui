@@ -57,6 +57,17 @@ describe('Busy', () => {
     expect(toasts.map((t) => [t.text, t.error])).toEqual([['Something went wrong.', true]]);
   });
 
+  it('keeps the focus once done, ready to be pressed again from the keyboard', async () => {
+    const action = () => new Promise((r) => setTimeout(r, 50));
+    render(Busy, { action, children: text('Run') });
+    const b = document.querySelector('button')!;
+    b.focus();
+    await userEvent.keyboard('{Enter}');
+    await new Promise((r) => setTimeout(r, 120));
+    await frame();
+    expect(document.activeElement).toBe(b);
+  });
+
   it('takes a name for screen readers and a hover text', async () => {
     render(Busy, { action: () => {}, label: 'Search Radarr again', title: 'Search again', small: true, children: text('↻') });
     const b = page.getByRole('button', { name: 'Search Radarr again' });
