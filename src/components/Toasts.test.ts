@@ -118,3 +118,19 @@ describe('Toasts', () => {
     expect(r.right).toBeLessThanOrEqual(window.innerWidth);
   });
 });
+
+describe('an error toast', () => {
+  it('keeps its words in the text color, the red in its dot and edge', async () => {
+    render(Toasts, {});
+    toast('It failed.', true);
+    await frame();
+    const t = document.querySelector('.toast.error')!;
+    const probe = document.createElement('span');
+    probe.style.color = 'var(--text)';
+    document.body.append(probe);
+    expect(getComputedStyle(t).color).toBe(getComputedStyle(probe).color);
+    const dot = getComputedStyle(t, '::before').backgroundColor;
+    probe.style.color = 'var(--danger)';
+    expect(dot).toBe(getComputedStyle(probe).color);
+  });
+});

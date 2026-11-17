@@ -258,6 +258,9 @@ button:focus-visible, a:focus-visible, input[type=checkbox]:focus-visible { outl
   animation: toast-in .2s ease-out;
 }
 .toast::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; background: var(--ok); flex: none; }
+/* An error says so by its red dot and edge; its words stay in the text's
+   color (the general .error class would make them red, too faint in light). */
+.toast.error { color: var(--text); border-color: color-mix(in srgb, var(--danger) 55%, var(--border-strong)); }
 .toast.error::before { background: var(--danger); }
 @keyframes toast-in { from { transform: translateY(.5rem); opacity: 0; } }
 

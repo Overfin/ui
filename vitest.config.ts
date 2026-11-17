@@ -17,7 +17,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: 'components',
-          include: ['src/components/**/*.test.ts'],
+          include: ['src/components/**/*.test.ts', 'src/theme.test.ts'],
           setupFiles: ['src/test/setup.ts'],
           // One file at a time: the keyboard and the focus belong to one
           // page, and files run side by side would take them from each other.
