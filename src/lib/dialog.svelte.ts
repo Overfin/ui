@@ -13,6 +13,14 @@ export interface Question {
 
 export const dialog = $state<{ current: Question | null }>({ current: null });
 
+// One question at a time: a new one answers the one still up with no, so
+// whoever waits on it (a busy button, say) is never left waiting.
+function put(q: Question) {
+  const before = dialog.current;
+  dialog.current = q;
+  before?.resolve(false);
+}
+
 export interface AskOptions {
   title?: string;
   yes?: string;
@@ -23,20 +31,20 @@ export interface AskOptions {
 /** ask asks before something is done: true once confirmed. */
 export function ask(message: string, options: AskOptions = {}): Promise<boolean> {
   return new Promise((resolve) => {
-    dialog.current = {
+    put({
       title: options.title ?? word('sure'),
       message,
       yes: options.yes ?? word('confirm'),
       danger: options.danger ?? false,
       notice: false,
       resolve,
-    };
+    });
   });
 }
 
 /** tell says something, until it's closed. */
 export function tell(title: string, message: string): Promise<void> {
   return new Promise((resolve) => {
-    dialog.current = { title, message, yes: word('ok'), danger: false, notice: true, resolve: () => resolve() };
+    put({ title, message, yes: word('ok'), danger: false, notice: true, resolve: () => resolve() });
   });
 }
