@@ -63,17 +63,33 @@
     element.showModal();
     // Messages already in the corner come back above this window.
     document.dispatchEvent(new Event('kit-window'));
-    element.querySelector<HTMLElement>('.modal-body input:not([type=checkbox]):not([readonly]), .modal-body select, .modal-body textarea')?.focus({ preventScroll: true });
+    element
+      .querySelector<HTMLElement>(
+        '.modal-body :is(input:not([type=checkbox], [type=radio], [type=hidden], [readonly]), select, textarea:not([readonly])):not(:disabled)',
+      )
+      ?.focus({ preventScroll: true });
   });
 
   function shut() {
     if (!busy) close();
+  }
+
+  // A click outside closes the window: pressed and let go both on the
+  // darkened page around it. The browser says "a click on the window" for
+  // its own margins inside it too, and for text selected in a field and let
+  // go outside, so where the pointer was is what counts.
+  let pressedOutside = false;
+  function outside(e: MouseEvent): boolean {
+    if (!element || e.target !== element) return false;
+    const r = element.getBoundingClientRect();
+    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
   }
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog class="modal" class:wide={size === 'wide'} class:small={size === 'small'} class:stacked bind:this={element}
   role={alert ? 'alertdialog' : undefined} aria-labelledby={id}
+  aria-describedby={description ? `${id}-description` : alert ? `${id}-body` : undefined}
   oncancel={(e) => { e.preventDefault(); shut(); }}
   onclose={() => {
     // Closed by the browser itself (a second Escape, which a page can't
@@ -82,15 +98,19 @@
     if (busy && element?.isConnected) element.showModal();
     else close();
   }}
-  onclick={(e) => { if (e.target === element) shut(); }}>
+  onpointerdown={(e) => (pressedOutside = outside(e))}
+  onclick={(e) => {
+    if (pressedOutside && outside(e)) shut();
+    pressedOutside = false;
+  }}>
   <div class="card-head">
     <div>
       <h2 {id}>{title}</h2>
-      {#if description}<p>{description}</p>{/if}
+      {#if description}<p id="{id}-description">{description}</p>{/if}
     </div>
     <button type="button" class="close" aria-label={word('close')} title={word('close')} onclick={shut}>×</button>
   </div>
-  <div class="modal-body">{@render children()}</div>
+  <div class="modal-body" id="{id}-body">{@render children()}</div>
   {#if foot}<div class="card-foot">{@render foot()}</div>{/if}
   <!-- Outside an open window, everything is out of reach of screen readers,
        the messages in the corner too: the latest is read out from here. -->
