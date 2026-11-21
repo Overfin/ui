@@ -453,10 +453,13 @@ th a:hover, th a.on { color: var(--text); }
 /* ---- Tabs and image choices ------------------------------------------------- */
 /* Parts of one thing, one at a time (Tabs): their names in a row, the
    chosen one underlined. */
-.tabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem; overflow-x: auto; }
+/* The bar's line is drawn inside it, under the tabs: a tab's underline
+   lies on it without reaching past the bar, which would make the bar,
+   that scrolls sideways, show a scrollbar of its own. */
+.tabs { display: flex; gap: .25rem; box-shadow: inset 0 -1px 0 var(--border); margin-bottom: 1rem; overflow-x: auto; overflow-y: hidden; }
 .tabs:focus { outline: none; }
 .tabs button[role=tab] {
-  min-height: 2.4rem; padding: .4rem .9rem; margin-bottom: -1px; border: none; border-bottom: 2px solid transparent;
+  min-height: 2.4rem; padding: .4rem .9rem; border: none; border-bottom: 2px solid transparent;
   border-radius: var(--radius-s) var(--radius-s) 0 0; background: none; color: var(--muted); font-weight: 550;
 }
 .tabs button[role=tab]:hover { background: var(--panel-2); color: var(--text); }
