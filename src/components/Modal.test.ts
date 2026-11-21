@@ -162,12 +162,19 @@ describe('Modal', () => {
   it('keeps its title and close button in view when scrolled to the bottom', async () => {
     const { dialog } = open({}, `<div>${'<p>Line</p>'.repeat(120)}</div>`);
     await expect.element(page.getByRole('dialog')).toBeVisible();
-    dialog.scrollTop = dialog.scrollHeight;
+    // Only what's between the title and the buttons scrolls: the window
+    // itself doesn't, so its scrollbar stays clear of the head and corners.
+    const body = dialog.querySelector<HTMLElement>('.modal-body')!;
+    body.scrollTop = body.scrollHeight;
     await new Promise((r) => requestAnimationFrame(r));
-    expect(dialog.scrollTop).toBeGreaterThan(0);
+    expect(body.scrollTop).toBeGreaterThan(0);
+    expect(dialog.scrollTop).toBe(0);
     const box = dialog.getBoundingClientRect();
     const close = dialog.querySelector('.close')!.getBoundingClientRect();
     expect(close.top).toBeGreaterThanOrEqual(box.top);
     expect(document.elementFromPoint(close.left + close.width / 2, close.top + close.height / 2)).toBe(dialog.querySelector('.close'));
+    // Nothing passes under the title: the body starts below it.
+    const head = dialog.querySelector('.card-head')!.getBoundingClientRect();
+    expect(body.getBoundingClientRect().top).toBeGreaterThanOrEqual(head.bottom - 1);
   });
 });

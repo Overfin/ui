@@ -390,10 +390,14 @@ ol.how li { margin: .3rem 0; }
 
 /* ---- Windows: forms and confirmations over the page (Modal, Dialogs) ------ */
 dialog.modal {
-  width: min(36rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 1.25rem 1.4rem; overflow: auto; overscroll-behavior: contain;
+  width: min(36rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 0; overflow: hidden;
   background: var(--panel); color: var(--text); border: 1px solid var(--border-strong); border-radius: var(--radius);
   box-shadow: 0 24px 64px rgba(0, 0, 0, .45);
 }
+/* Open, a window is a column: its title on top and its buttons at the
+   bottom stay put, each set apart by a line; only what's between scrolls,
+   with its scrollbar inside that part, clear of the corners. */
+dialog.modal[open] { display: flex; flex-direction: column; }
 dialog.modal.wide { width: min(56rem, calc(100vw - 2rem)); }
 dialog.modal.small { width: min(28rem, calc(100vw - 2rem)); }
 /* Darkened, not blurred: a blur makes the browser draw the whole page
@@ -401,12 +405,13 @@ dialog.modal.small { width: min(28rem, calc(100vw - 2rem)); }
 dialog.modal::backdrop { background: rgba(5, 6, 9, .72); }
 /* A window over another: the page is darkened once, by the first. */
 dialog.modal.stacked::backdrop { background: transparent; }
-/* A long window scrolls as one: its title and × stay on top, its buttons
-   at the bottom. */
 dialog.modal .card-head {
-  position: sticky; top: -1.25rem; z-index: 1; margin: -1.25rem 0 .9rem; padding-top: 1.25rem; background: var(--panel);
+  flex: none; margin: 0; padding: 1.25rem 1.4rem .9rem; background: var(--panel); border-bottom: 1px solid var(--border);
 }
-dialog.modal .card-foot { position: sticky; bottom: -1.25rem; z-index: 1; margin-top: 1.2rem; }
+dialog.modal .modal-body {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 1rem 1.4rem 1.25rem;
+}
+dialog.modal .card-foot { flex: none; margin: 0; }
 dialog.modal .close {
   flex: none; width: 2rem; height: 2rem; min-height: 0; padding: 0; border: none; background: none;
   font-size: 1.4rem; line-height: 1; color: var(--muted);
