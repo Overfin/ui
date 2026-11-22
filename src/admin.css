@@ -193,6 +193,7 @@ label.inline { display: inline-flex; align-items: center; gap: .5rem; min-height
 .setting:first-child { border-top: none; padding-top: .2rem; }
 .setting > div:first-child { flex: 1; min-width: 0; }
 .setting .label { font-weight: 550; }
+.setting .label, .setting .hint { overflow-wrap: anywhere; }
 .setting select, .setting input:not([type=checkbox]) { width: 13rem; flex: none; }
 .setting.sub { padding-inline-start: 1.4rem; border-top-style: dashed; }
 .setting.sub .label { font-weight: 500; }

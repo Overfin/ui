@@ -39,7 +39,7 @@ describe('Setting', () => {
   });
 
   it('keeps a long label inside the row', () => {
-    render(Setting, { label: 'Supercalifragilistic'.repeat(10), children: control });
+    render(Setting, { label: 'Supercalifragilistic'.repeat(20), children: control });
     expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
   });
 });
