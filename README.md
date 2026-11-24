@@ -29,7 +29,7 @@ forms open in a `FormModal`; a new one too.
 
 A few plain classes cover what tables and lists need: `visually-hidden` (a
 column's name only screen readers hear, over its row buttons), `button.pick`
-(a row's name that selects the row, so the keyboard reaches it), and `th a`
+(a row's name that selects the row, so the keyboard reaches it), `th a`
 (a column header that sorts, `.on` on the column sorted on), and
 `.image-choices` (pictures to choose one of: buttons holding them, the chosen
 one `aria-pressed`; `.wide` for backdrops, `.logos` for logos). Windows give the
@@ -40,7 +40,7 @@ keyboard focus back to the button that opened them when they close.
 A panel installs a tagged version from GitHub (install scripts stay off):
 
 ```sh
-npm install --save-exact github:overfin/ui#v0.4.9
+npm install --save-exact github:overfin/ui#v0.5.7
 ```
 
 ```ts
@@ -54,7 +54,7 @@ import '@overfin/ui/admin.css';
   import { Shell, PageHead, FormModal, Dialogs, Toasts, ask, toast } from '@overfin/ui';
 </script>
 
-<Shell name="Overswell" nav={[{ items: [{ href: '/', label: 'Home' }] }]} active="/">
+<Shell name="Overtide" nav={[{ items: [{ href: '/', label: 'Home' }] }]} active="/">
   <PageHead title="Home" />
 </Shell>
 <Dialogs />

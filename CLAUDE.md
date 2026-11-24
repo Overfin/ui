@@ -1,7 +1,7 @@
 # Overfin UI
 
 The shared look and Svelte components of Overfin's panels: Overfin's
-control panel and setup, Overtide, Overswell. Not the site (overfin-web).
+control panel and setup, Overtide. Not the site (overfin-web).
 MIT, public, part of the Overfin project.
 
 ## Non-negotiable
